@@ -138,6 +138,7 @@ function draw() {
   m = minute();
   timer.html("Timer: " + m + " ' " + s + " '' ");
   timer.parent("container");
+
   
   // Keyboard controls!
   if (keyIsDown(LEFT_ARROW)) {
@@ -198,9 +199,6 @@ function draw() {
     }
   }
   
- 
-  
-
   describeMouseTile(world_pos, [camera_offset.x, camera_offset.y]);
 
   if (window.p2_drawAfter) {

@@ -62,7 +62,8 @@ function p2_tileClicked(i, j) {
   let key = [i, j];
   let keyOne;
   let keyTwo;
-
+  
+  // two tiles flip color match detection gameplay
   if (flipped.length > 1) {
     keyOne = flipped.pop();
     keyTwo = flipped.pop();
@@ -188,6 +189,7 @@ function p2_drawTile(i, j) {
       pop();
     }
   }
+
 }
 
 function p2_drawSelectedTile(i, j) {
@@ -236,14 +238,11 @@ function win() {
   while (stack.length > 0) {
     let t = stack.pop();
     let tN = [];
-    tN.push(t + [0, 1]);
-    tN.push(t + [0, -1]);
-    tN.push(t + [1, 0]);
-    tN.push(t + [-1, 0]);
+    tN.push([t[0], t[1] + 1]);
+    tN.push([t[0], t[1] - 1]);
+    tN.push([t[0] + 1, t[1]]);
+    tN.push([t[0] - 1, t[1]]);
 
-    // 1. In the edges object, we search for nodes this node is directly connected to.
-    // 2. We filter out the nodes that have already been explored.
-    // 3. Then we mark each unexplored node as explored and push it to the Stack.
     for (let i = 0; i < tN.length; i++) {
       if (openSet.includes(tN[i])) {
         if (!closedSet.includes(tN[i])) {
@@ -275,8 +274,16 @@ function p2_drawAfter() {
   push();
   textSize(32);
   for (let i = 0; i < closedSet.length; i++) {
-    text(closedSet[i], 10, 30);
+    text("closedSet: " + closedSet[i], 10, 60);
+    console.log("closedSet: " + closedSet[i]);
   }
-  //text(win(), 10, 30);
+  for (let i = 0; i < openSet.length; i++) {
+    text("openSet: " + openSet[i], 10  + 5*i, 30);
+    console.log("openSet: " + openSet[i]);
+  }
+  
+  text("won? : " + win(), 10 , 90);
+  
   pop();
 }
+
