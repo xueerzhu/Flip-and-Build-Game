@@ -104,8 +104,8 @@ function setup() {
   });
   
   timer = createP();
-  
-  createP("Construct a continuous road between 2 nodes. ").parent("container");
+ 
+  createP("Construct a continuous road between tiles with white dots. ").parent("container");
   createP("Click to flip tiles. Match two colors to build the road. ").parent("container");
   
   rebuildWorld(input.value());
@@ -136,7 +136,7 @@ function draw() {
   
   s = second();
   m = minute();
-  timer.html("Timer: " + m + " ' " + s + " '' ");
+  timer.html("Time Played: " + m + " ' " + s + " '' ");
   timer.parent("container");
 
   

@@ -62,7 +62,7 @@ function p2_tileClicked(i, j) {
   let key = [i, j];
   let keyOne;
   let keyTwo;
-  
+
   // two tiles flip color match detection gameplay
   if (flipped.length > 1) {
     keyOne = flipped.pop();
@@ -70,7 +70,8 @@ function p2_tileClicked(i, j) {
 
     if (
       XXH.h32("tile:" + keyOne, worldSeed) % 5 !=
-      XXH.h32("tile:" + keyTwo, worldSeed) % 5
+        XXH.h32("tile:" + keyTwo, worldSeed) % 5 ||
+      JSON.stringify(keyOne) == JSON.stringify(keyTwo)
     ) {
       clicks[keyOne] = 0;
       clicks[keyTwo] = 0;
@@ -150,6 +151,7 @@ function p2_drawTile(i, j) {
   let n = clicks[[i, j]] | 0;
   let r = revealed[[i, j]] | 0;
 
+  // starTile are goals - end of the bridge
   if (n == starTile) {
     push();
     fill(tileSpecial);
@@ -160,10 +162,7 @@ function p2_drawTile(i, j) {
     vertex(0, -th);
     endShape(CLOSE);
     fill("#ffffff");
-    ellipse(0, 0, 10, 5);
-    translate(0, -10);
-    fill("#ffffff");
-    ellipse(0, 0, 10, 13);
+    ellipse(0, -2, 15, 8);
     pop();
   } else if (n == revealedTile || r == 1) {
     push();
@@ -189,7 +188,6 @@ function p2_drawTile(i, j) {
       pop();
     }
   }
-
 }
 
 function p2_drawSelectedTile(i, j) {
@@ -208,11 +206,10 @@ function p2_drawSelectedTile(i, j) {
   endShape(CLOSE);
   pop();
 
-  //tile index info for debug
-
-  noStroke();
-  fill(0);
-  text("tile " + [i, j], 0, 0);
+  //   //tile index info for debug
+  //   noStroke();
+  //   fill(0);
+  //   text("tile " + [i, j], 0, 0);
 }
 
 function p2_drawOpenSetTile(i, j) {
@@ -244,46 +241,53 @@ function win() {
     tN.push([t[0] - 1, t[1]]);
 
     for (let i = 0; i < tN.length; i++) {
-      if (openSet.includes(tN[i])) {
-        if (!closedSet.includes(tN[i])) {
-          stack.push(tN[i]);
-          closedSet.push(tN[i]);
+      for (let j = 0; j < openSet.length; j++) {
+        if (JSON.stringify(openSet[j]) == JSON.stringify(tN[i])) {
+          let flag = true;
+          for (let k = 0; k < closedSet.length; k++) {
+            if (JSON.stringify(openSet[j]) == JSON.stringify(closedSet[k])) {
+              flag = false;
+            }
+          }
+          if (flag == true) {
+            stack.push(tN[i]);
+            closedSet.push(tN[i]);
+          }
         }
       }
     }
   }
 
-  if (closedSet.includes(closedTile)) {
-    return true;
-  } else {
-    return false;
+  for (let k = 0; k < closedSet.length; k++) {
+    if (JSON.stringify(closedTile) == JSON.stringify(closedSet[k])) {
+      return true;
+    }
   }
+
+  return false;
 }
 
 function p2_drawAfter() {
+  // // debug for DFS
+  // function keyPressed() {
+  //   if (keyCode === "G") {
+  //     push();
+  //     textSize(10);
+  //     text("won? : " + win(), 10, 30);
+  //     text("openSet : " + openSet, 10, 60);
+  //     text("closedSet : " + closedSet, 10, 90);
+  //     pop();
+  //   }
+  // }
+
   startTileOld = startTile;
   closedTileOld = closedTile;
 
-  // if (win() == true){
-  //      push();
-  //     textSize(32);
-  //     text('won', 10, 30);
-  //     pop();
-  // }
-
-  push();
-  textSize(32);
-  for (let i = 0; i < closedSet.length; i++) {
-    text("closedSet: " + closedSet[i], 10, 60);
-    console.log("closedSet: " + closedSet[i]);
+  if (win()) {
+    fill("#FE667B");
+    textSize(20);
+    text("You Won ! ", 50, 50);
+    let message = "Enter a new world key to play a different level : )";
+    text(message, 50, 90);
   }
-  for (let i = 0; i < openSet.length; i++) {
-    text("openSet: " + openSet[i], 10  + 5*i, 30);
-    console.log("openSet: " + openSet[i]);
-  }
-  
-  text("won? : " + win(), 10 , 90);
-  
-  pop();
 }
-
