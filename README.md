@@ -1,24 +1,35 @@
 ## Project Name
 
-# inspiring image
+flip-and-build
 
-# colors
+# HOW TO PLAY
 
-# shapes
+- Construct a continuous road between tiles with white dots.
+- Click to flip tiles. Match two colors to build the road.
 
-# motion
+# Inspiring image
 
-# interactivity
+![Image of Yaktocat](https://images.unsplash.com/photo-1458682625221-3a45f8a844c7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80)
 
-- **Gameplay** - Click to flip that tile. Two at a time, they are revealed if they are the same color. Use revealed tiles to construct a road to connect two black nodes. 
-Your time is recorded and you could play anytime to beat your record! 
+# Infinity
+- I used the infinite extent of my world to represent an infinite grid of tiles. 
+All of them can be clicked and flipped to turn into road blocks. And they serve as the foundational game objects. 
 
-# Attributions:
+# Variation in Space
+- As the audience browses my world, they’ll see that they are the creator of what this world could look like. 
+All tiles are facing backwards from the player. As player interacts with the colorful tiles, they turn into black road blocks if their color matches.
 
-- Adam's base game code at https://glitch.com/~p2-basic
+# Variations in Key
+- Different worlds will have different starting two nodes for the game - the goals will be different. 
+- Different worlds will also have completely different colored tiles. 
+- These variations ensure that this game is procedurally generated and could be  replayed. 
 
-Asset Used -
+# Signs of Life
+- Clicking tiles causes the tiles to "flip". And they turn into black road blocks if the two color matches. 
+- If road blocks continuously connect the two special tiles with white dots. Player wins the game!
 
-# TODO
+# Statements
 
-lots of debug
+- Prof Adam's base game code at https://glitch.com/~p2-basic
+- All other creations are mine.
+
