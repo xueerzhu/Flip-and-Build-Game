@@ -29,11 +29,11 @@
   textSize
   CENTER
   strokeWeight
+  textFont
+  loadFont
 */
 
-// deserted letters idea
-// let letters = ["a", "b","c","d","e","f","g","h","i","j","k",
-//               "l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+let myFont;
 
 let tiles = {}; // tiles array storing color information
 let tileSpecial;
@@ -56,18 +56,23 @@ let clicks = {};
 let revealed = {};
 let flipped = []; //array of size 2 that memorize the last two flipped tile key info
 
-function p2_preload() {}
+function p2_preload() {
+  myFont = loadFont(
+    "https://cdn.glitch.com/94b9d331-3988-41c9-af9e-835d5d473346%2FInconsolata.otf?v=1571786237536"
+  );
+}
 
 function p2_tileClicked(i, j) {
   let key = [i, j];
   let keyOne;
   let keyTwo;
 
-  // two tiles flip color match detection gameplay
+  // implementation of two tiles flip color match detection 
   if (flipped.length > 1) {
     keyOne = flipped.pop();
     keyTwo = flipped.pop();
-
+    
+    // if not same color or if they are the same tile meaning player double clicks on one tile, we bort
     if (
       XXH.h32("tile:" + keyOne, worldSeed) % 5 !=
         XXH.h32("tile:" + keyTwo, worldSeed) % 5 ||
@@ -88,14 +93,9 @@ function p2_tileClicked(i, j) {
 
   flipped.push(key);
   clicks[key] = 1 + (clicks[key] | 0);
-  //clicks[key] = revealedTile;
-  // starTile indicates it is A* traversed special tile
 
   clicks[startTile] = starTile;
   clicks[closedTile] = starTile;
-  // for (let i = 0; i < openSet.length; i++) {
-  //   clicks[openSet[i]] = starTile;
-  // }
 
   win();
 }
@@ -127,6 +127,7 @@ function p2_worldKeyChanged(key) {
 function p2_setup() {
   tiles = ["#32B67A", "#FF9966", "#083EA7", "#FFD101", "#D73743"];
   tileSpecial = "#1B1D1C";
+  textFont(myFont);
 }
 
 function p2_tileWidth() {
@@ -226,6 +227,9 @@ function p2_drawOpenSetTile(i, j) {
   pop();
 }
 
+// DFS impelmentation 
+// Run search for every revealed tiles, check if two goals are connected
+// win condition, true - alerts player, but the game is still playable
 function win() {
   closedSet = [];
   let stack = [];
@@ -267,6 +271,7 @@ function win() {
   return false;
 }
 
+// utility function for data bookkeeping, HUD info 
 function p2_drawAfter() {
   // // debug for DFS
   // function keyPressed() {
