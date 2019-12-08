@@ -27,9 +27,3 @@ All tiles are facing backwards from the player. As player interacts with the col
 # Signs of Life
 - Clicking tiles causes the tiles to "flip". And they turn into black road blocks if the two color matches. 
 - If road blocks continuously connect the two special tiles with white dots. Player wins the game!
-
-# Statements
-
-- Prof Adam's base game code at https://glitch.com/~p2-basic
-- All other creations are mine.
-
